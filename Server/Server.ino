@@ -5,8 +5,6 @@ double averaging(double avg, double newdata, double n) { //평균필터 알고�
 }
 
 void setup() {
-  pinMode (servoPin, OUTPUT);
-  myservo.attach(servoPin);
   myservo.write(cent);
   Serial.print("ready1");
 }
