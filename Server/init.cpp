@@ -1,5 +1,4 @@
-
-#include "Client.hpp"
+# include "Server.hpp"
 void initializeSerial(){
   Serial.begin(57600);
   gps.begin(9600,SERIAL_8N1,26,27); //gps

@@ -1,39 +1,36 @@
-#include "sender.hpp"
+#include "Client.hpp"
 
-void  sendGPSInfo_String()
+const std::string&  getGpsInfo()
 {
-  String gpsData;
-  
+  std::string gpsData;
   if (Tiny.location.isValid()) {
-    gpsData += String(Tiny.location.lat(), 6);
+    gpsData += std::string(Tiny.location.lat(), 6);
     gpsData += ",";
-    gpsData += String(Tiny.location.lng(), 6);
-  } else {
-    gpsData += "INVALID";
+    gpsData += std::string(Tiny.location.lng(), 6);
   }
+	else
+    gpsData += "INVALID";
   gpsData += ",";
   if (Tiny.time.isValid()) {
     if (Tiny.time.hour() < 10) gpsData += "0";
-    gpsData += String(Tiny.time.hour());
+    gpsData += std::string(Tiny.time.hour());
     gpsData += ":";
     if (Tiny.time.minute() < 10) gpsData += "0";
-    gpsData += String(Tiny.time.minute());
+    gpsData += std::string(Tiny.time.minute());
     gpsData += ":";
     if (Tiny.time.second() < 10) gpsData += "0";
-    gpsData += String(Tiny.time.second());
+    gpsData += std::string(Tiny.time.second());
     gpsData += ".";
     if (Tiny.time.centisecond() < 10) gpsData += "0";
-    gpsData += String(Tiny.time.centisecond());
-  } else {
-    gpsData += "INVALID";
+   	gpsData += std::string(Tiny.time.centisecond());
   }
-  
-  lora.println(gpsData);
+	else
+    gpsData += "INVALID";
+	return(gpsData);
 }
 
 void sendGPSInfo()
 {
-  
   if (Tiny.location.isValid()) {
     lora.print(F("Location: "));
     lora.print(Tiny.location.lat(), 6);
@@ -43,7 +40,6 @@ void sendGPSInfo()
   } else {
     lora.print(F("Location: INVALID "));
   }
-  
   if (Tiny.time.isValid()) {
     lora.print(F("Time: "));
     if (Tiny.time.hour() < 10) lora.print(F("0"));
@@ -61,7 +57,7 @@ void sendGPSInfo()
   } else {
     lora.println(F("Time: INVALID"));
   }
-} 
+}
 
 void  loopSendGPSInfo(){
   bool isInputAvailable = false;
@@ -72,7 +68,7 @@ void  loopSendGPSInfo(){
         isInputAvailable = true;
   }
   if(isInputAvailable == true)
-    sendGPSInfo_String();
+    lora.println(getGpsInfo());
     // sendGPSInfo();
   else
     lora.println("noData");
