@@ -1,6 +1,6 @@
 #ifndef INIT_HPP
 # define INIT_HPP
-# include "preprocessor.hpp"
+# include "global.hpp"
 void  initializeSerial();
 void  initializeAll();
 

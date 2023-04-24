@@ -29,35 +29,35 @@ const std::string&  getGpsInfo()
 	return(gpsData);
 }
 
-void sendGPSInfo()
-{
-  if (Tiny.location.isValid()) {
-    lora.print(F("Location: "));
-    lora.print(Tiny.location.lat(), 6);
-    lora.print(",");
-    lora.print(Tiny.location.lng(), 6);
-    lora.print(" ");
-  } else {
-    lora.print(F("Location: INVALID "));
-  }
-  if (Tiny.time.isValid()) {
-    lora.print(F("Time: "));
-    if (Tiny.time.hour() < 10) lora.print(F("0"));
-    lora.print(Tiny.time.hour());
-    lora.print(F(":"));
-    if (Tiny.time.minute() < 10) lora.print(F("0"));
-    lora.print(Tiny.time.minute());
-    lora.print(F(":"));
-    if (Tiny.time.second() < 10) lora.print(F("0"));
-    lora.print(Tiny.time.second());
-    lora.print(F("."));
-    if (Tiny.time.centisecond() < 10) lora.print(F("0"));
-    lora.print(Tiny.time.centisecond());
-    lora.println();
-  } else {
-    lora.println(F("Time: INVALID"));
-  }
-}
+// void sendGPSInfo()
+// {
+//   if (Tiny.location.isValid()) {
+//     lora.print(F("Location: "));
+//     lora.print(Tiny.location.lat(), 6);
+//     lora.print(",");
+//     lora.print(Tiny.location.lng(), 6);
+//     lora.print(" ");
+//   } else {
+//     lora.print(F("Location: INVALID "));
+//   }
+//   if (Tiny.time.isValid()) {
+//     lora.print(F("Time: "));
+//     if (Tiny.time.hour() < 10) lora.print(F("0"));
+//     lora.print(Tiny.time.hour());
+//     lora.print(F(":"));
+//     if (Tiny.time.minute() < 10) lora.print(F("0"));
+//     lora.print(Tiny.time.minute());
+//     lora.print(F(":"));
+//     if (Tiny.time.second() < 10) lora.print(F("0"));
+//     lora.print(Tiny.time.second());
+//     lora.print(F("."));
+//     if (Tiny.time.centisecond() < 10) lora.print(F("0"));
+//     lora.print(Tiny.time.centisecond());
+//     lora.println();
+//   } else {
+//     lora.println(F("Time: INVALID"));
+//   }
+// }
 
 void  loopSendGPSInfo(){
   bool isInputAvailable = false;
@@ -68,8 +68,7 @@ void  loopSendGPSInfo(){
         isInputAvailable = true;
   }
   if(isInputAvailable == true)
-    lora.println(getGpsInfo());
-    // sendGPSInfo();
+    lora.println(getGpsInfo()); //sendGPSInfo();
   else
     lora.println("noData");
 }
