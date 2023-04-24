@@ -1,63 +1,34 @@
 #include "Client.hpp"
-
-const std::string&  getGpsInfo()
+//lat = 6, lng = 6, hour =2, minite =2, second=2,centisecond =2
+//총 데이터 길이만 하면 6+6+2+2+2+2 = 20
+//데이터 길이 20으로 초기화 해서 그 값을 계속 보내는 것으로 한다.
+void  sendGpsInfo()
 {
-  std::string gpsData;
   if (Tiny.location.isValid()) {
-    gpsData += std::string(Tiny.location.lat(), 6);
-    gpsData += ",";
-    gpsData += std::string(Tiny.location.lng(), 6);
+    lora.print(Tiny.location.lat(), 6);
+    lora.print(Tiny.location.lng(), 6);
   }
 	else
-    gpsData += "INVALID";
-  gpsData += ",";
+    lora.print(F("XXXXXXXXXXXX"));
+  std::string string_time(8);
   if (Tiny.time.isValid()) {
-    if (Tiny.time.hour() < 10) gpsData += "0";
-    gpsData += std::string(Tiny.time.hour());
-    gpsData += ":";
-    if (Tiny.time.minute() < 10) gpsData += "0";
-    gpsData += std::string(Tiny.time.minute());
-    gpsData += ":";
-    if (Tiny.time.second() < 10) gpsData += "0";
-    gpsData += std::string(Tiny.time.second());
-    gpsData += ".";
-    if (Tiny.time.centisecond() < 10) gpsData += "0";
-   	gpsData += std::string(Tiny.time.centisecond());
+      int hour = Tiny.time.hour();
+      int min = Tiny.time.minute();
+      int sec = Tiny.time.second();
+      int csec = Tiny.time.centisecond();
+      string_time[0] = hour /10 + '0';
+      string_time[1] = hour % 10 + '0';
+      string_time[2] = min/10 + '0';
+      string_time[3] = min % 10 + '0';
+      string_time[4] = sec / 10 + '0';
+      string_time[5] = sec % 10 + '0';
+      string_time[6] = csec /10 + '0';
+      string_time[7] = csec % 10 + '0';
+      lora.print(string_time);
   }
-	else
-    gpsData += "INVALID";
-	return(gpsData);
+  else
+    lora.print(F("XXXXXXXXXXXX"));
 }
-
-// void sendGPSInfo()
-// {
-//   if (Tiny.location.isValid()) {
-//     lora.print(F("Location: "));
-//     lora.print(Tiny.location.lat(), 6);
-//     lora.print(",");
-//     lora.print(Tiny.location.lng(), 6);
-//     lora.print(" ");
-//   } else {
-//     lora.print(F("Location: INVALID "));
-//   }
-//   if (Tiny.time.isValid()) {
-//     lora.print(F("Time: "));
-//     if (Tiny.time.hour() < 10) lora.print(F("0"));
-//     lora.print(Tiny.time.hour());
-//     lora.print(F(":"));
-//     if (Tiny.time.minute() < 10) lora.print(F("0"));
-//     lora.print(Tiny.time.minute());
-//     lora.print(F(":"));
-//     if (Tiny.time.second() < 10) lora.print(F("0"));
-//     lora.print(Tiny.time.second());
-//     lora.print(F("."));
-//     if (Tiny.time.centisecond() < 10) lora.print(F("0"));
-//     lora.print(Tiny.time.centisecond());
-//     lora.println();
-//   } else {
-//     lora.println(F("Time: INVALID"));
-//   }
-// }
 
 void  loopSendGPSInfo(){
   bool isInputAvailable = false;
@@ -68,7 +39,7 @@ void  loopSendGPSInfo(){
         isInputAvailable = true;
   }
   if(isInputAvailable == true)
-    lora.println(getGpsInfo()); //sendGPSInfo();
+    sendGPSInfo();
   else
     lora.println("noData");
 }

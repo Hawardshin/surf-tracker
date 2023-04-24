@@ -41,28 +41,23 @@ double getRadian(Vector2& c_vec, Vector2& s_vec){
 }
 
 void parseNetworkData(){
-   boolean newData = true;
-  if (newData == true)
-  {
-    if (lora.available())
-    {
-      String datalora = lora.readStringUntil('\n'); // 데이터
-      Serial.println("get");
-      Serial.println(datalora);
-      // 데이터 파싱과정
-      int index1 = datalora.indexOf(':');
-      int index2 = datalora.indexOf(',', index1 + 1);
-      int index3 = datalora.indexOf(',', index2 + 1);
+  if (lora.available()) {
+    std::string datalora = lora.readStringUntil('\n'); // 데이터
+    Serial.println("get");
+    Serial.println(datalora);
+    // 데이터 파싱 과정
+    int index1 = datalora.indexOf(':');
+    int index2 = datalora.indexOf(',', index1 + 1);
+    int index3 = datalora.indexOf(',', index2 + 1);
+    if (index1 >= 0 && index2 >= 0 && index3 >= 0) {
       get_lat = datalora.substring(index1 + 1, index2).toDouble();
       get_lng = datalora.substring(index2 + 1, index3).toDouble();
-//      Serial.println(get_lat, 6);
-//      Serial.println(get_lng, 6);
-
+      Serial.println(get_lat, 6);
+      Serial.println(get_lng, 6);
     }
   }
-  else
-  {
-     Serial.println("thisnodata");
+  else {
+    Serial.println("no data");
   }
 }
 
