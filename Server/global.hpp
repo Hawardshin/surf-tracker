@@ -17,5 +17,5 @@ extern Servo myservo;
 # define GPS_INTERVAL_0p1 "$PMTK220,100*2F\r\n" //0.1s
 # define SET_UP_DELAY 1000
 # define SET_UP_READY_MESSAGE "SET UP READY"
-
+# define INIT_DEGREE 86
 #endif

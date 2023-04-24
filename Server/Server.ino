@@ -5,8 +5,8 @@ double averaging(double avg, double newdata, double n) { //평균필터 알고�
 }
 
 void setup() {
-  myservo.write(cent);
-  Serial.print("ready1");
+  initializeSerial();
+  initializeAll();
 }
 
 void loop()

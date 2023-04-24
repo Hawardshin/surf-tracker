@@ -4,8 +4,7 @@ const std::string&  getGpsInfo()
 {
   std::string gpsData;
   if (Tiny.location.isValid()) {
-    gpsData += std::string(Tiny.location.lat(), 6);
-    gpsData += ",";
+    gpsData = std::string(Tiny.location.lat(), 6);
     gpsData += std::string(Tiny.location.lng(), 6);
   }
 	else
@@ -42,18 +41,27 @@ double getRadian(Vector2& c_vec, Vector2& s_vec){
 
 void parseNetworkData(){
   if (lora.available()) {
-    std::string datalora = lora.readStringUntil('\n'); // 데이터
-    Serial.println("get");
-    Serial.println(datalora);
-    // 데이터 파싱 과정
-    int index1 = datalora.indexOf(':');
-    int index2 = datalora.indexOf(',', index1 + 1);
-    int index3 = datalora.indexOf(',', index2 + 1);
-    if (index1 >= 0 && index2 >= 0 && index3 >= 0) {
-      get_lat = datalora.substring(index1 + 1, index2).toDouble();
-      get_lng = datalora.substring(index2 + 1, index3).toDouble();
-      Serial.println(get_lat, 6);
-      Serial.println(get_lng, 6);
+    char buffer[23]; // 버퍼 크기는 데이터 크기에 맞게 조절 가능
+    int size = lora.readBytesUntil('\n', buffer, sizeof(buffer));//이거 전부 다 20이어야한다.
+    if (size > 0) {
+    buffer[size] = '\0'; // 문자열 종료 문자 삽입
+    // 데이터 파싱과정
+    char* ptr = buffer;
+    get_lat = atof(ptr);
+    get_lng = atof(ptr);
+  }
+    // std::string datalora = lora.readStringUntil('\n'); // 데이터
+    // Serial.println("get");
+    // Serial.println(datalora);
+    // // 데이터 파싱 과정
+    // int index1 = datalora.indexOf(':');
+    // int index2 = datalora.indexOf(',', index1 + 1);
+    // int index3 = datalora.indexOf(',', index2 + 1);
+    // if (index1 >= 0 && index2 >= 0 && index3 >= 0) {
+    //   get_lat = datalora.substring(index1 + 1, index2).toDouble();
+    //   get_lng = datalora.substring(index2 + 1, index3).toDouble();
+    //   Serial.println(get_lat, 6);
+    //   Serial.println(get_lng, 6);
     }
   }
   else {

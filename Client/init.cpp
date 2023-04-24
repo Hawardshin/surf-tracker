@@ -16,4 +16,5 @@ void  initializeAll(){
   gps.write(GPS_INTERVAL_0p2);      //  fix interval. 0.2s
 //gps.write(GPS_INTERVAL_0p1);      //  fix interval. 0.1s
   delay(SET_UP_DELAY);
+  Serial.println(F(SET_UP_READY_MESSAGE));
 }
