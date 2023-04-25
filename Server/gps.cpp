@@ -1,30 +1,43 @@
 # include "Server.hpp"
 # include "gps.hpp"
+
+//ToDo :
+// 1.parse gps to lat lng and time with struct
+// 2.make func can see in serial my data easy to see
+
+// isue
+//1. make my data to float (it only 6 digit so fast calc) is this good ? to calc????
+// 4.
+
+const t_coordinaete&  parseGpsInfo(char* s){
+  t_coordinaete retData;
+  retData.lat = atof()
+}
+
+t_coordinaete parseMyGpsInfo(){
+
+}
 const std::string&  getGpsInfo()
 {
-  std::string gpsData;
+  std::string gpsData(20);
   if (Tiny.location.isValid()) {
-    gpsData = std::string(Tiny.location.lat(), 6);
-    gpsData += std::string(Tiny.location.lng(), 6);
+    gpsData.replace(0,6,std:: to_string (Tiny.location.lat()).substr(0,6));
+    gpsData.replace(6,6,std:: to_string (Tiny.location.lng()).substr(0,6));
   }
 	else
-    gpsData += "INVALID";
-  gpsData += ",";
+    gpsData.replace(0,12,"XXXXXXXXXXXX");
   if (Tiny.time.isValid()) {
-    if (Tiny.time.hour() < 10) gpsData += "0";
-    gpsData += std::string(Tiny.time.hour());
-    gpsData += ":";
-    if (Tiny.time.minute() < 10) gpsData += "0";
-    gpsData += std::string(Tiny.time.minute());
-    gpsData += ":";
-    if (Tiny.time.second() < 10) gpsData += "0";
-    gpsData += std::string(Tiny.time.second());
-    gpsData += ".";
-    if (Tiny.time.centisecond() < 10) gpsData += "0";
-   	gpsData += std::string(Tiny.time.centisecond());
+    gpsData[12] = Tiny.time.hour() /10 + '0';
+    gpsData[13] = Tiny.time.hour() %10 + '0';
+    gpsData[14] = Tiny.time.minute() /10 + '0';
+    gpsData[15] = Tiny.time.minute() % 10 + '0';
+    gpsData[16] = Tiny.time.second() /10 + '0';
+    gpsData[17] = Tiny.time.second() % 10 + '0';
+    gpsData[18] = Tiny.time.centisecond() /10 + '0';
+    gpsData[19] = Tiny.time.centisecond() % 10 + '0';
   }
 	else
-    gpsData += "INVALID";
+    gpsData.replace(12,8,"XXXXXXXX");
 	return(gpsData);
 }
 
@@ -41,14 +54,14 @@ double getRadian(Vector2& c_vec, Vector2& s_vec){
 
 void parseNetworkData(){
   if (lora.available()) {
-    char buffer[23]; // 버퍼 크기는 데이터 크기에 맞게 조절 가능
+    char buffer[21]; // 버퍼 크기는 데이터 크기에 맞게 조절 가능
     int size = lora.readBytesUntil('\n', buffer, sizeof(buffer));//이거 전부 다 20이어야한다.
     if (size > 0) {
     buffer[size] = '\0'; // 문자열 종료 문자 삽입
     // 데이터 파싱과정
+    parseGpsInfo(buffer);
     char* ptr = buffer;
-    get_lat = atof(ptr);
-    get_lng = atof(ptr);
+
   }
     // std::string datalora = lora.readStringUntil('\n'); // 데이터
     // Serial.println("get");

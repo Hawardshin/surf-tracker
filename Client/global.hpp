@@ -4,7 +4,6 @@
 # include <HardwareSerial.h>
 # include <TinyGPSPlus.h>
 # include <TinyGPS++.h>
-#include <algorithm>
 extern HardwareSerial gps;
 extern HardwareSerial lora;
 extern TinyGPSPlus Tiny; //gps libarry
