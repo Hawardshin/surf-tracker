@@ -5,13 +5,15 @@
 # include <HardwareSerial.h>
 # include <TinyGPSPlus.h>
 # include <TinyGPS++.h>
-#include <ESP32_Servo.h>
-#include <math.h>
-#include <stdlib.h>
+# include <ESP32_Servo.h>
+# include <math.h>
+# include <stdlib.h>
+# include "myQueue.hpp"
 extern HardwareSerial gps;
 extern HardwareSerial lora;
 extern TinyGPSPlus Tiny; //gps libarry
 extern Servo myservo;
+extern myQueue myreadyQueue;
 
 # define GPS_BAUDRATE_57600 "$PMTK251,57600*2C\r\n"
 # define GPS_BAUDRATE_115200 "$PMTK251,115200*1F\r\n"

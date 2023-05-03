@@ -28,8 +28,6 @@ static void  parseData(t_coordinaete &data){
   }
 }
 
-
-
 void  parseNetworkData(t_coordinaete &mydata){
    if(lora.available()){
     lora.readBytes(recv_buff,sizeof(mydata));
@@ -43,10 +41,10 @@ void  serverGPSInfo(){
   memset(ClientData,0,sizeof(t_coordinaete));
   memset(ServerData,0,sizeof(t_coordinaete));
   bool isInputAvailable = false;
-  parseNetworkData(ClientData);
   unsigned long previousMicros = micros(); // 이전 시간 저장
   while (micros() - previousMicros < 100000) // 100ms 마다 한번 (100,000 마이크로초)
   {
+    parseNetworkData(ClientData);
     if (gps.available() && Tiny.encode(gps.read()))
         isInputAvailable = true;
   }
