@@ -30,16 +30,39 @@ static void  parseData(t_coordinaete &data){
 
 void  parseNetworkData(t_coordinaete &mydata){
    if(lora.available()){
-    lora.readBytes(recv_buff,sizeof(mydata));
-    memcpy(&mydata,recv_buff,sizeof(mydata));
+    Serial.print("NET WORK PARSE!!\n");
+    lora.readBytes(mydata,sizeof(mydata));
+    myreadyQueue.push(mydata);
+    printData(mydata);
   }
+}
+void  printTime(const myTime& time){
+  Serial.print("time : ");
+  Serial.print(time.hour);
+  Serial.print(" : ");
+  Serial.print(time.min);
+  Serial.print(" : ");
+  Serial.print(time.sec);
+  Serial.print(" : ");
+  Serial.print(time.csec);
+  Serial.print("\n");
+;}
+
+void  printData(const t_coordinaete &data){
+  printTime(data.co_time);
+  Serial.print("Location : ");
+  Serial.print("lat : ");
+  Serial.print(data.lat);
+  Serial.print(",lng : ");
+  Serial.print(data.lng);
+  Serial.print("\n");
 }
 
 void  serverGPSInfo(){
   t_coordinaete ClientData;
   t_coordinaete ServerData;
-  memset(ClientData,0,sizeof(t_coordinaete));
-  memset(ServerData,0,sizeof(t_coordinaete));
+  memset(ClientData, 0, sizeof(t_coordinaete));
+  memset(ServerData, 0, sizeof(t_coordinaete));
   bool isInputAvailable = false;
   unsigned long previousMicros = micros(); // 이전 시간 저장
   while (micros() - previousMicros < 100000) // 100ms 마다 한번 (100,000 마이크로초)
@@ -49,7 +72,7 @@ void  serverGPSInfo(){
         isInputAvailable = true;
   }
   if(isInputAvailable == true){
-
+    parseData(ServerData);
   }
   else{
     Serial.print("notGood");
