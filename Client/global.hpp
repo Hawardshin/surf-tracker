@@ -1,9 +1,10 @@
 #ifndef GLOBAL_HPP
 # define GLOBAL_HPP
-# include <string>
+// # include <string>
 # include <HardwareSerial.h>
 # include <TinyGPSPlus.h>
 # include <TinyGPS++.h>
+# include <memory.h>
 extern HardwareSerial gps;
 extern HardwareSerial lora;
 extern TinyGPSPlus Tiny; //gps libarry

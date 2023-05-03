@@ -7,15 +7,17 @@ typedef struct s_vector2{
 }Vector2;
 
 typedef struct s_myTime{
-  int hour;
-  int min;
-  int sec;
-  int csec;
+  uint8_t hour;
+  uint8_t min;
+  uint8_t sec;
+  uint8_t csec;
 }myTime;
 
 typedef struct s_coordinate{
-  float lat;
-  float lng;
+  bool    isvaildTime;
+  bool    isvaildCoord;
+  double  lat;
+  double  lng;
   struct s_myTime co_time;
 }t_coordinaete;
 
